@@ -5,16 +5,23 @@
     <button @click="addTask">Add</button>
     <ul>
       <li v-for="(task, index) in tasks" :key="index">
-        <span
-          @click="toggleTask(index)"
-          :style="{
-            textDecoration: task.done ? 'line-through' : 'none',
-            cursor: 'pointer',
-          }"
-        >
-          {{ task.text }}
-        </span>
-        <button @click="deleteTask(index)">Delete</button>
+        <div v-if="!task.isEditing">
+          <span
+            @click="toggleTask(index)"
+            :style="{
+              textDecoration: task.done ? 'line-through' : 'none',
+              cursor: 'pointer',
+            }"
+          >
+            {{ task.text }}
+          </span>
+          <button @click="editTask(index)">Edit</button>
+          <button @click="deleteTask(index)">Delete</button>
+        </div>
+        <div v-else>
+          <input v-model="task.text" />
+          <button @click="saveTask(index)">Save</button>
+        </div>
       </li>
     </ul>
   </div>
@@ -31,7 +38,7 @@ export default {
   methods: {
     addTask() {
       if (this.newTask.trim()) {
-        this.tasks.push({ text: this.newTask, done: false });
+        this.tasks.push({ text: this.newTask, done: false, isEditing: false });
         this.newTask = "";
       }
     },
@@ -40,6 +47,12 @@ export default {
     },
     deleteTask(index) {
       this.tasks.splice(index, 1);
+    },
+    editTask(index) {
+      this.tasks[index].isEditing = true;
+    },
+    saveTask(index) {
+      this.tasks[index].isEditing = false;
     },
   },
 };
