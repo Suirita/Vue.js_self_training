@@ -1,33 +1,3 @@
-<script>
-import TaskItem from "./TaskItem.vue";
-
-export default {
-  components: {
-    TaskItem,
-  },
-  props: {
-    tasks: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    toggleTask(index) {
-      this.$emit("toggle", index);
-    },
-    deleteTask(index) {
-      this.$emit("delete", index);
-    },
-    editTask(index) {
-      this.$emit("edit", index);
-    },
-    saveTask(index) {
-      this.$emit("save", index);
-    },
-  },
-};
-</script>
-
 <template>
   <ul>
     <li v-for="(task, index) in tasks" :key="index">
@@ -51,3 +21,28 @@ export default {
     </li>
   </ul>
 </template>
+
+<script>
+export default {
+  props: {
+    tasks: {
+      type: Array,
+      required: true,
+    },
+  },
+  emits: ["toggle", "delete", "edit", "save"],
+  setup(props, { emit }) {
+    const toggleTask = (index) => emit("toggle", index);
+    const deleteTask = (index) => emit("delete", index);
+    const editTask = (index) => emit("edit", index);
+    const saveTask = (index) => emit("save", index);
+
+    return {
+      toggleTask,
+      deleteTask,
+      editTask,
+      saveTask,
+    };
+  },
+};
+</script>

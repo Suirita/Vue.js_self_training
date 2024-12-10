@@ -1,14 +1,3 @@
-<script>
-export default {
-  props: {
-    task: {
-      type: Object,
-      required: true,
-    },
-  },
-};
-</script>
-
 <template>
   <span
     @click="$emit('toggle')"
@@ -20,3 +9,15 @@ export default {
     <slot />
   </span>
 </template>
+
+<script>
+export default {
+  props: {
+    task: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ["toggle"],
+};
+</script>

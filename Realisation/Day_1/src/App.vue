@@ -28,32 +28,49 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 export default {
-  data() {
-    return {
-      newTask: "",
-      tasks: [],
-    };
-  },
-  methods: {
-    addTask() {
-      if (this.newTask.trim()) {
-        this.tasks.push({ text: this.newTask, done: false, isEditing: false });
-        this.newTask = "";
+  setup() {
+    const newTask = ref("");
+    const tasks = ref([]);
+
+    const addTask = () => {
+      if (newTask.value.trim()) {
+        tasks.value.push({
+          text: newTask.value,
+          done: false,
+          isEditing: false,
+        });
+        newTask.value = "";
       }
-    },
-    toggleTask(index) {
-      this.tasks[index].done = !this.tasks[index].done;
-    },
-    deleteTask(index) {
-      this.tasks.splice(index, 1);
-    },
-    editTask(index) {
-      this.tasks[index].isEditing = true;
-    },
-    saveTask(index) {
-      this.tasks[index].isEditing = false;
-    },
+    };
+
+    const toggleTask = (index) => {
+      tasks.value[index].done = !tasks.value[index].done;
+    };
+
+    const deleteTask = (index) => {
+      tasks.value.splice(index, 1);
+    };
+
+    const editTask = (index) => {
+      tasks.value[index].isEditing = true;
+    };
+
+    const saveTask = (index) => {
+      tasks.value[index].isEditing = false;
+    };
+
+    return {
+      newTask,
+      tasks,
+      addTask,
+      toggleTask,
+      deleteTask,
+      editTask,
+      saveTask,
+    };
   },
 };
 </script>
